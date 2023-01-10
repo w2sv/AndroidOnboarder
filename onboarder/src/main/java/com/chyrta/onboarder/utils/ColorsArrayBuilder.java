@@ -14,7 +14,7 @@ public class ColorsArrayBuilder {
     public static Integer[] getPageBackgroundColors(Context context, List<OnboarderPage> pages) {
         List<Integer> colorsList = new ArrayList<>();
         for (OnboarderPage page : pages) {
-            colorsList.add(ContextCompat.getColor(context, page.getBackgroundColor()));
+            colorsList.add(ContextCompat.getColor(context, page.backgroundColor));
         }
         return colorsList.toArray(new Integer[pages.size()]);
     }

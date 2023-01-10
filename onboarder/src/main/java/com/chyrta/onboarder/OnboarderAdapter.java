@@ -1,30 +1,31 @@
 package com.chyrta.onboarder;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Lifecycle;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class OnboarderAdapter extends FragmentStatePagerAdapter {
+public class OnboarderAdapter extends FragmentStateAdapter {
 
-    List<OnboarderPage> pages = new ArrayList<OnboarderPage>();
+    List<OnboarderPage> pages;
 
-    public OnboarderAdapter(List<OnboarderPage> pages, FragmentManager fm) {
-        super(fm);
+    public OnboarderAdapter(List<OnboarderPage> pages, @NonNull FragmentManager fragmentManager,
+                            @NonNull Lifecycle lifecycle) {
+        super(fragmentManager, lifecycle);
         this.pages = pages;
     }
 
+    @NonNull
     @Override
-    public Fragment getItem(int position) {
+    public Fragment createFragment(int position) {
         return OnboarderFragment.newInstance(pages.get(position));
     }
 
     @Override
-    public int getCount() {
+    public int getItemCount() {
         return pages.size();
     }
-
-
 }

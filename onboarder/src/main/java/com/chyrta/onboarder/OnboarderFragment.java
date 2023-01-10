@@ -2,18 +2,19 @@ package com.chyrta.onboarder;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.StringRes;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.content.res.AppCompatResources;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.StringRes;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 public class OnboarderFragment extends Fragment
 {
@@ -31,11 +32,14 @@ public class OnboarderFragment extends Fragment
 
 	private              String 	onboarderTitle;
 	private              String 	onboarderDescription;
-	@StringRes private   int    	onboarderTitleResId;
-	@ColorRes private    int    	onboarderTitleColor;
+	@StringRes
+	private   int    	onboarderTitleResId;
+	@ColorRes
+	private    int    	onboarderTitleColor;
 	@StringRes private   int    	onboarderDescriptionResId;
 	@ColorRes private    int    	onboarderDescriptionColor;
-	@DrawableRes private int    	onboarderImageResId;
+	@DrawableRes
+	private int    	onboarderImageResId;
 	private              float  	onboarderTitleTextSize;
 	private              float  	onboarderDescriptionTextSize;
 	private				 boolean	onboarderDescriptionTextCentered;

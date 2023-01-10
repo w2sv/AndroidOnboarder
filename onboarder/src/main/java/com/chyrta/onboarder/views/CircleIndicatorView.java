@@ -3,10 +3,11 @@ package com.chyrta.onboarder.views;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.support.annotation.ColorRes;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
+
+import androidx.annotation.ColorRes;
+import androidx.core.content.ContextCompat;
 
 import com.chyrta.onboarder.R;
 
@@ -51,9 +52,9 @@ public class CircleIndicatorView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         for (int i = 0; i < indicatorsCount; i++) {
-            canvas.drawCircle(radius + (size * i), radius, radius / 2, inactiveIndicatorPaint);
+            canvas.drawCircle(radius + (size * i), radius, (float) radius / 2, inactiveIndicatorPaint);
         }
-        canvas.drawCircle(radius + (size * position), radius, radius / 2, activeIndicatorPaint);
+        canvas.drawCircle(radius + (size * position), radius, (float) radius / 2, activeIndicatorPaint);
     }
 
     @Override

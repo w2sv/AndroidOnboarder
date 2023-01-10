@@ -1,19 +1,23 @@
 package com.chyrta.onboarder;
 
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.StringRes;
+
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.StringRes;
 
 public class OnboarderPage {
 
     public String title;
     public String description;
     public Drawable imageResource;
-    @StringRes public int titleResourceId;
+    @StringRes
+    public int titleResourceId;
     @StringRes public int descriptionResourceId;
-    @DrawableRes public int imageResourceId;
-    @ColorRes public int titleColor;
+    @DrawableRes
+    public int imageResourceId;
+    @ColorRes
+    public int titleColor;
     @ColorRes public int descriptionColor;
     @ColorRes public int backgroundColor;
     public float titleTextSize;

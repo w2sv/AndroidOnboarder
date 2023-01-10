@@ -4,20 +4,21 @@ import android.animation.ArgbEvaluator;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
-import android.support.annotation.StringRes;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
+
 import com.chyrta.onboarder.utils.ColorsArrayBuilder;
 import com.chyrta.onboarder.views.CircleIndicatorView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public abstract class OnboarderActivity extends AppCompatActivity implements Vie
 
     private Integer[] colors;
     private CircleIndicatorView circleIndicatorView;
-    private ViewPager vpOnboarderPager;
+    private ViewPager viewPager;
     private OnboarderAdapter onboarderAdapter;
     private ImageButton ibNext;
     private Button btnSkip, btnFinish;
@@ -50,8 +51,8 @@ public abstract class OnboarderActivity extends AppCompatActivity implements Vie
         buttonsLayout = (FrameLayout) findViewById(R.id.buttons_layout);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         divider = findViewById(R.id.divider);
-        vpOnboarderPager = (ViewPager) findViewById(R.id.vp_onboarder_pager);
-        vpOnboarderPager.addOnPageChangeListener(this);
+        viewPager = (ViewPager) findViewById(R.id.vp_onboarder_pager);
+        viewPager.addOnPageChangeListener(this);
         ibNext.setOnClickListener(this);
         btnSkip.setOnClickListener(this);
         btnFinish.setOnClickListener(this);
@@ -60,8 +61,8 @@ public abstract class OnboarderActivity extends AppCompatActivity implements Vie
     }
 
     public void setOnboardPagesReady(List<OnboarderPage> pages) {
-        onboarderAdapter = new OnboarderAdapter(pages, getSupportFragmentManager());
-        vpOnboarderPager.setAdapter(onboarderAdapter);
+        onboarderAdapter = new OnboarderAdapter(pages, getSupportFragmentManager(), getLifecycle());
+        viewPager.setAdapter(onboarderAdapter);
         colors = ColorsArrayBuilder.getPageBackgroundColors(this, pages);
         circleIndicatorView.setPageIndicators(pages.size());
     }
@@ -152,9 +153,9 @@ public abstract class OnboarderActivity extends AppCompatActivity implements Vie
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        boolean isInLastPage = vpOnboarderPager.getCurrentItem() == onboarderAdapter.getCount() - 1;
+        boolean isInLastPage = viewPager.getCurrentItem() == onboarderAdapter.getItemCount() - 1;
         if (i == R.id.ib_next || i == R.id.fab && !isInLastPage) {
-            vpOnboarderPager.setCurrentItem(vpOnboarderPager.getCurrentItem() + 1);
+            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
         } else if (i == R.id.btn_skip) {
             onSkipButtonPressed();
         } else if (i == R.id.btn_finish || i == R.id.fab && isInLastPage) {
@@ -164,14 +165,14 @@ public abstract class OnboarderActivity extends AppCompatActivity implements Vie
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        if(position < (onboarderAdapter.getCount() - 1) && position < (colors.length - 1)) {
-            vpOnboarderPager.setBackgroundColor((Integer) evaluator.evaluate(positionOffset, colors[position], colors[position + 1]));
+        if(position < (onboarderAdapter.getItemCount() - 1) && position < (colors.length - 1)) {
+            viewPager.setBackgroundColor((Integer) evaluator.evaluate(positionOffset, colors[position], colors[position + 1]));
             if (shouldDarkenButtonsLayout) {
                 buttonsLayout.setBackgroundColor(darkenColor((Integer) evaluator.evaluate(positionOffset, colors[position], colors[position + 1])));
                 divider.setVisibility(View.GONE);
             }
         } else {
-            vpOnboarderPager.setBackgroundColor(colors[colors.length - 1]);
+            viewPager.setBackgroundColor(colors[colors.length - 1]);
             if(shouldDarkenButtonsLayout) {
                 buttonsLayout.setBackgroundColor(darkenColor(colors[colors.length - 1]));
                 divider.setVisibility(View.GONE);
@@ -181,7 +182,7 @@ public abstract class OnboarderActivity extends AppCompatActivity implements Vie
 
     @Override
     public void onPageSelected(int position) {
-        int lastPagePosition = onboarderAdapter.getCount() - 1;
+        int lastPagePosition = onboarderAdapter.getItemCount() - 1;
         circleIndicatorView.setCurrentPage(position);
         ibNext.setVisibility(position == lastPagePosition && !this.shouldUseFloatingActionButton ? View.GONE : View.VISIBLE);
         btnFinish.setVisibility(position == lastPagePosition && !this.shouldUseFloatingActionButton ? View.VISIBLE : View.GONE);
@@ -201,7 +202,7 @@ public abstract class OnboarderActivity extends AppCompatActivity implements Vie
     }
 
     protected void onSkipButtonPressed() {
-        vpOnboarderPager.setCurrentItem(onboarderAdapter.getCount());
+        viewPager.setCurrentItem(onboarderAdapter.getItemCount());
     }
 
     abstract public void onFinishButtonPressed();

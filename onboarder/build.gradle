@@ -1,19 +1,13 @@
-apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
-
-repositories {
-    jcenter()
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.1"
-
+    namespace 'com.chyrta.onboarder'
+    compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.minSdkVersion
     }
     buildTypes {
         release {
@@ -21,89 +15,36 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    lintOptions {
-        abortOnError false
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
-
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
+    }
 }
 
-dependencies {
-    testCompile 'junit:junit:4.12'
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
 
-    compile "com.android.support:appcompat-v7:$support_library_version"
-    compile "com.android.support:design:$support_library_version"
-}
-
-publish {
-    groupId = 'com.github.chyrta'
-    artifactId = 'AndroidOnboarder'
-    publishVersion = '0.8'
-    desc = 'A light-weight library to create beauty onboarding experience in Material Design'
-    licences = ['MIT']
-    website = 'https://github.com/chyrta/AndroidOnboarder'
-}
-
-ext {
-    ARTIFACT_ID = 'AndroidOnboarder'
-    VERSION_NAME = '0.8'
-    VERSION_CODE = 7
-    DESCRIPTION = 'A light-weight library to create beauty onboarding experience in Material Design'
-    SITE_URL = 'https://github.com/chyrta'
-    GIT_URL = 'https://github.com/chyrta/AndroidOnboarder'
-    GROUP_NAME = 'com.github.chyrta'
-    MODULE_NAME = 'onboarder'
-    COMPILE_SDK = 26
-    BUILD_TOOLS = '26.0.1'
-    LICENSE = 'MIT'
-    IS_UPLOADING = project.getGradle().startParameter.taskNames.any{it.contains('bintrayUpload')}
-}
-
-subprojects {
-    group = GROUP_NAME
-    version = VERSION_CODE
-
-    if (IS_UPLOADING && project.name in [MODULE_NAME]) {
-        println project.name
-        apply plugin: 'maven'
-
-        gradle.taskGraph.whenReady { taskGraph ->
-            taskGraph.getAllTasks().find {
-                it.path == ":$project.name:generatePomFileForMavenPublication"
-            }.doLast {
-                file("build/publications/maven/pom-default.xml").delete()
-                println 'Overriding pom-file to make sure we can sync to maven central!'
-                pom {
-                    //noinspection GroovyAssignabilityCheck
-                    project {
-                        name "$project.name"
-                        artifactId ARTIFACT_ID
-                        packaging project.name == 'compiler' ? 'jar' : 'aar'
-                        description DESCRIPTION
-                        url SITE_URL
-                        version VERSION_NAME
-
-                        scm {
-                            url GIT_URL
-                            connection GIT_URL
-                            developerConnection GIT_URL
-                        }
-
-                        licenses {
-                            license {
-                                name LICENSE
-                            }
-                        }
-
-                        developers {
-                            developer {
-                                id 'chyrta'
-                                name 'Dzmitry Chyrta'
-                                email 'dima@chyrta.com'
-                            }
-                        }
-                    }
-                }.writeTo("build/publications/maven/pom-default.xml")
+                groupId = 'com.github.w2sv'
+                artifactId = 'androidonboarder'
+                version = '0.0.1'
             }
         }
     }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    implementation 'com.google.android.material:material:1.7.0'
+
+    testImplementation 'junit:junit:4.13.2'
 }

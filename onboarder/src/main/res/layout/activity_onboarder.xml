@@ -9,7 +9,7 @@
         android:id="@+id/vp_onboarder_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="?attr/actionBarSize"/>
+        android:paddingBottom="?attr/actionBarSize" />
 
     <View
         android:id="@+id/divider"
@@ -17,17 +17,17 @@
         android:layout_height="1dp"
         android:layout_gravity="bottom"
         android:layout_marginBottom="?attr/actionBarSize"
-        android:background="?android:attr/listDivider"/>
+        android:background="?android:attr/listDivider" />
 
     <FrameLayout
         android:id="@+id/buttons_layout"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="bottom"
-        android:paddingEnd="@dimen/activity_margin"
+        android:paddingStart="@dimen/activity_margin"
         android:paddingLeft="@dimen/activity_margin"
-        android:paddingRight="@dimen/activity_margin"
-        android:paddingStart="@dimen/activity_margin">
+        android:paddingEnd="@dimen/activity_margin"
+        android:paddingRight="@dimen/activity_margin">
 
         <Button
             android:id="@+id/btn_skip"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start|center"
             android:text="@string/button.skip"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white" />
 
         <LinearLayout
             android:id="@+id/ll_indicators"
@@ -60,7 +60,7 @@
             android:layout_gravity="end|center"
             android:text="@string/button.finish"
             android:textColor="@color/white"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/ib_next"
@@ -70,7 +70,7 @@
             android:layout_gravity="end|center"
             android:padding="@dimen/activity_margin"
             android:src="@drawable/ic_chevron_right"
-            android:tint="@color/white"/>
+            android:tint="@color/white" />
 
     </FrameLayout>
 
@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/activity_margin"
-        android:visibility="gone"
-        android:src="@drawable/ic_arrow_forward_white_24dp" />
+        android:src="@drawable/ic_arrow_forward_24"
+        android:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

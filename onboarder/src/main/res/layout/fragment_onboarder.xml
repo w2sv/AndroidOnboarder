@@ -3,17 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/activity_margin"
-    tools:background="#00AA00">
+    android:padding="@dimen/activity_margin">
 
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/linlayText"
+        android:layout_above="@+id/inlayText"
         android:layout_alignParentTop="true"
-        android:layout_margin="@dimen/activity_margin"
-        tools:background="#FF0000">
+        android:layout_margin="@dimen/activity_margin">
 
 
         <ImageView
@@ -23,12 +21,11 @@
             android:layout_gravity="bottom|center_horizontal"
             android:adjustViewBounds="true"
             android:contentDescription="@null"
-            android:scaleType="fitCenter"
-            tools:background="@drawable/die_for_music" />
+            android:scaleType="fitCenter" />
     </FrameLayout>
 
     <LinearLayout
-        android:id="@+id/linlayText"
+        android:id="@+id/inlayText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -36,16 +33,14 @@
         android:gravity="top|center_horizontal"
         android:minHeight="@dimen/text_section_min_height"
         android:orientation="vertical"
-        android:padding="@dimen/activity_margin"
-        tools:background="#660000FF">
+        android:padding="@dimen/activity_margin">
 
         <TextView
             android:id="@+id/tv_onboarder_title"
             style="@style/TextAppearance.AppCompat.Headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            tools:text="Section Title" />
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/tv_onboarder_description"
@@ -55,7 +50,6 @@
             android:layout_marginTop="@dimen/margin_between_title_and_description"
             android:alpha="0.7"
             android:gravity="center"
-            android:textColor="@color/white"
-            tools:text="A long description about my application." />
+            android:textColor="@color/white" />
     </LinearLayout>
 </RelativeLayout>

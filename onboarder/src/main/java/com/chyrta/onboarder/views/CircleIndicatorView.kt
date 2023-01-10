@@ -12,6 +12,7 @@ import kotlin.math.min
 
 class CircleIndicatorView(context: Context, attributeSet: AttributeSet) :
     View(context, attributeSet) {
+
     private var activeIndicatorPaint: Paint? = null
     private var inactiveIndicatorPaint: Paint? = null
     private var radius = 0

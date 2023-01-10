@@ -58,27 +58,37 @@ abstract class OnboarderActivity : AppCompatActivity() {
                             positionOffset: Float,
                             positionOffsetPixels: Int
                         ) {
-                            if (position < viewPager.adapter!!.itemCount - 1 && position < colors.size - 1) {
+                            if (position < viewPager.adapter!!.itemCount - 1 && position < colors.lastIndex) {
                                 viewPager.setBackgroundColor(
-                                    (evaluator.evaluate(
+                                    evaluator.evaluate(
                                         positionOffset,
                                         colors[position],
                                         colors[position + 1]
-                                    ) as Int)
+                                    ) as Int
                                 )
                             } else {
-                                viewPager.setBackgroundColor(colors[colors.size - 1])
+                                viewPager.setBackgroundColor(colors.last())
                             }
                         }
 
                         override fun onPageSelected(position: Int) {
-                            val lastPagePosition = viewPager.adapter!!.itemCount - 1
+                            val onLastPage = onLastPage(position)
+
                             circleIndicatorView.setCurrentPage(position)
-                            ibNext.visibility =
-                                if (position == lastPagePosition && !shouldUseFloatingActionButton) View.GONE else View.VISIBLE
-                            btnFinish.visibility =
-                                if (position == lastPagePosition && !shouldUseFloatingActionButton) View.VISIBLE else View.GONE
-                            if (shouldUseFloatingActionButton) fab.setImageResource(if (position == lastPagePosition) R.drawable.ic_done_white_24dp else R.drawable.ic_arrow_forward_white_24dp)
+
+                            if (shouldUseFloatingActionButton)
+                                fab.setImageResource(
+                                    if (onLastPage)
+                                        R.drawable.ic_done_24
+                                    else
+                                        R.drawable.ic_arrow_forward_24
+                                )
+                            else {
+                                ibNext.visibility =
+                                    if (onLastPage) View.GONE else View.VISIBLE
+                                btnFinish.visibility =
+                                    if (onLastPage) View.VISIBLE else View.GONE
+                            }
                         }
                     }
                 )
@@ -175,7 +185,6 @@ abstract class OnboarderActivity : AppCompatActivity() {
             btnFinish.visibility = View.GONE
             btnSkip.visibility = View.GONE
             ibNext.visibility = View.GONE
-            ibNext.isFocusable = false
             buttonsLayout.layoutParams.height = TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, 96f,
                 resources.displayMetrics

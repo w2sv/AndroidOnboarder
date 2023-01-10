@@ -8,26 +8,21 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class OnboarderPage(
-    val title: TextViewProperties,
-    val description: TextViewProperties,
+    @StringRes val titleText: Int,
+    @ColorRes val titleColor: Int = R.color.white,
+    val titleSize: Float = 0f,
+    @StringRes val descriptionText: Int,
+    @ColorRes val descriptionColor: Int = R.color.white,
+    val descriptionSize: Float = 0f,
     @DrawableRes
     val drawable: Int = 0,
     @ColorRes
-    val backgroundColor: Int = R.color.black_transparent,
-    val centerDescription: Boolean = false
+    val backgroundColor: Int = R.color.black_transparent
 ) : Parcelable {
 
     companion object {
         const val EXTRA = "com.chyrta.onboarder.extra.OnboarderPage"
     }
-
-    @Parcelize
-    data class TextViewProperties(
-        @StringRes val text: Int,
-        @ColorRes val color: Int,
-        val size: Float
-    ) :
-        Parcelable
 }
 
 fun Iterable<OnboarderPage>.backgroundColors(): List<Int> =

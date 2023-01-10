@@ -4,11 +4,8 @@ import android.animation.ArgbEvaluator
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
-import android.widget.Button
 import android.widget.FrameLayout
-import android.widget.ImageButton
 import androidx.annotation.ColorInt
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -22,15 +19,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 abstract class OnboarderActivity : AppCompatActivity() {
     private lateinit var circleIndicatorView: CircleIndicatorView
     private lateinit var viewPager: ViewPager2
-    private lateinit var ibNext: ImageButton
-    private lateinit var btnSkip: Button
-    private lateinit var btnFinish: Button
     private lateinit var buttonsLayout: FrameLayout
     private lateinit var fab: FloatingActionButton
     private lateinit var divider: View
 
     private lateinit var colors: List<Int>
-    private var shouldUseFloatingActionButton = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,11 +31,16 @@ abstract class OnboarderActivity : AppCompatActivity() {
         setContentView(R.layout.activity_onboarder)
 
         circleIndicatorView = findViewById(R.id.circle_indicator_view)
-        ibNext = findViewById(R.id.ib_next)
-        btnSkip = findViewById(R.id.btn_skip)
-        btnFinish = findViewById(R.id.btn_finish)
         buttonsLayout = findViewById(R.id.buttons_layout)
-        fab = findViewById(R.id.fab)
+        fab = findViewById<FloatingActionButton?>(R.id.fab)
+            .apply {
+                setDividerVisibility(View.GONE)
+                buttonsLayout.layoutParams.height = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP, 96f,
+                    resources.displayMetrics
+                )
+                    .toInt()
+            }
         divider = findViewById(R.id.divider)
         viewPager = findViewById<ViewPager2>(R.id.vp_onboarder_pager)
             .apply {
@@ -58,37 +56,27 @@ abstract class OnboarderActivity : AppCompatActivity() {
                             positionOffset: Float,
                             positionOffsetPixels: Int
                         ) {
-                            if (position < viewPager.adapter!!.itemCount - 1 && position < colors.lastIndex) {
-                                viewPager.setBackgroundColor(
+                            viewPager.setBackgroundColor(
+                                if (position < viewPager.adapter!!.itemCount - 1 && position < colors.lastIndex)
                                     evaluator.evaluate(
                                         positionOffset,
                                         colors[position],
                                         colors[position + 1]
                                     ) as Int
-                                )
-                            } else {
-                                viewPager.setBackgroundColor(colors.last())
-                            }
+                                else
+                                    colors.last()
+                            )
                         }
 
                         override fun onPageSelected(position: Int) {
-                            val onLastPage = onLastPage(position)
-
                             circleIndicatorView.setCurrentPage(position)
 
-                            if (shouldUseFloatingActionButton)
-                                fab.setImageResource(
-                                    if (onLastPage)
-                                        R.drawable.ic_done_24
-                                    else
-                                        R.drawable.ic_arrow_forward_24
-                                )
-                            else {
-                                ibNext.visibility =
-                                    if (onLastPage) View.GONE else View.VISIBLE
-                                btnFinish.visibility =
-                                    if (onLastPage) View.VISIBLE else View.GONE
-                            }
+                            fab.setImageResource(
+                                if (onLastPage(position))
+                                    R.drawable.ic_done_24
+                                else
+                                    R.drawable.ic_arrow_forward_24
+                            )
                         }
                     }
                 )
@@ -98,25 +86,12 @@ abstract class OnboarderActivity : AppCompatActivity() {
     }
 
     private fun setOnClickListeners() {
-        ibNext.setOnClickListener {
-            viewPager.scrollToNextPage()
-        }
-        btnSkip.setOnClickListener {
-            onSkipButtonPressed()
-        }
-        btnFinish.setOnClickListener {
-            onFinishButtonPressed()
-        }
         fab.setOnClickListener {
             if (!viewPager.onLastPage)
                 viewPager.scrollToNextPage()
             else
                 onFinishButtonPressed()
         }
-    }
-
-    protected open fun onSkipButtonPressed() {
-        viewPager.currentItem = viewPager.adapter!!.itemCount
     }
 
     abstract fun onFinishButtonPressed()
@@ -156,40 +131,7 @@ abstract class OnboarderActivity : AppCompatActivity() {
         divider.visibility = dividerVisibility
     }
 
-    fun setSkipButtonTitle(title: CharSequence?) {
-        btnSkip.text = title
-    }
-
-    fun setSkipButtonHidden() {
-        btnSkip.visibility = View.GONE
-    }
-
-    fun setSkipButtonTitle(@StringRes titleResId: Int) {
-        btnSkip.setText(titleResId)
-    }
-
-    fun setFinishButtonTitle(title: CharSequence?) {
-        btnFinish.text = title
-    }
-
-    fun setFinishButtonTitle(@StringRes titleResId: Int) {
-        btnFinish.setText(titleResId)
-    }
-
-    fun seUseFloatingActionButton(shouldUseFloatingActionButton: Boolean) {
-        this.shouldUseFloatingActionButton = shouldUseFloatingActionButton
-
-        if (shouldUseFloatingActionButton) {
-            fab.visibility = View.VISIBLE
-            setDividerVisibility(View.GONE)
-            btnFinish.visibility = View.GONE
-            btnSkip.visibility = View.GONE
-            ibNext.visibility = View.GONE
-            buttonsLayout.layoutParams.height = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, 96f,
-                resources.displayMetrics
-            )
-                .toInt()
-        }
+    fun setFabColor(@ColorInt color: Int) {
+        fab.setBackgroundColor(color)
     }
 }

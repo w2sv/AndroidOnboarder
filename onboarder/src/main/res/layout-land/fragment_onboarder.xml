@@ -45,6 +45,8 @@
             android:layout_marginTop="@dimen/margin_between_title_and_description"
             android:alpha="0.7"
             android:gravity="center"
+            android:textAlignment="center"
             android:textColor="@color/white" />
     </LinearLayout>
+
 </LinearLayout>

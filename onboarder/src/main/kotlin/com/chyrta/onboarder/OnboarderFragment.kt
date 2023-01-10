@@ -1,12 +1,13 @@
 package com.chyrta.onboarder
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.ColorRes
+import androidx.annotation.StringRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -35,49 +36,42 @@ class OnboarderFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View =
-        page
-            .populatedView(
-                inflater.inflate(
-                    R.layout.fragment_onboarder,
-                    container,
-                    false
-                )
-            )
+        inflater.inflate(
+            R.layout.fragment_onboarder,
+            container,
+            false
+        )
+            .apply {
+                page
+                    .populateView(this)
+            }
 
-    private fun OnboarderPage.populatedView(layout: View): View {
+    private fun OnboarderPage.populateView(layout: View) {
         layout.findViewById<ImageView>(R.id.iv_onboarder_image)
             .apply {
                 setImageDrawable(
                     AppCompatResources.getDrawable(
                         requireContext(),
-                        this@populatedView.drawable
+                        this@populateView.drawable
                     )
                 )
             }
         layout.findViewById<TextView>(R.id.tv_onboarder_title)
             .apply {
-                text = resources.getString(title.text)
-                textSize = title.size
-                setTextColor(ContextCompat.getColor(requireContext(), title.color))
+                populate(titleText, titleColor, titleSize)
             }
-        descriptionTV = layout.findViewById<TextView?>(R.id.tv_onboarder_description)
+        descriptionTV = layout.findViewById<TextView>(R.id.tv_onboarder_description)
             .apply {
-                text = resources.getString(description.text)
-                textSize = description.size
-                setTextColor(ContextCompat.getColor(requireContext(), description.color))
+                populate(descriptionText, descriptionColor, descriptionSize)
             }
-
-        return layout
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        with(descriptionTV) {
-            gravity = if (page.centerDescription)
-                Gravity.CENTER
-            else
-                if (descriptionTV.lineCount > 1) Gravity.START else Gravity.CENTER
+    private fun TextView.populate(@StringRes text: Int, @ColorRes color: Int, size: Float) {
+        this.text = resources.getString(text)
+        setTextColor(ContextCompat.getColor(requireContext(), color))
+        size.let {
+            if (it != 0f)
+                textSize = it
         }
     }
 }

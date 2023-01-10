@@ -22,7 +22,11 @@ data class OnboarderPage(
     }
 
     @Parcelize
-    data class TextViewProperties(@StringRes val text: Int, @ColorRes val color: Int, val size: Float) :
+    data class TextViewProperties(
+        @StringRes val text: Int,
+        @ColorRes val color: Int,
+        val size: Float
+    ) :
         Parcelable
 }
 

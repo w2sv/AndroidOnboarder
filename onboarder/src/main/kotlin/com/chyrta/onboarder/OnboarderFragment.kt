@@ -1,5 +1,6 @@
 package com.chyrta.onboarder
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
+import androidx.annotation.StyleableRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -47,31 +49,45 @@ class OnboarderFragment : Fragment() {
             }
 
     private fun OnboarderPage.populateView(layout: View) {
-        layout.findViewById<ImageView>(R.id.iv_onboarder_image)
+        layout.findViewById<ImageView>(R.id.emblem_iv)
             .apply {
                 setImageDrawable(
                     AppCompatResources.getDrawable(
                         requireContext(),
-                        this@populateView.drawable
+                        this@populateView.emblemDrawable
                     )
                 )
             }
         layout.findViewById<TextView>(R.id.tv_onboarder_title)
             .apply {
-                populate(titleText, titleColor, titleSize)
+                populate(titleTextId, titleColor, titleSize, titleFont)
             }
         descriptionTV = layout.findViewById<TextView>(R.id.tv_onboarder_description)
             .apply {
-                populate(descriptionText, descriptionColor, descriptionSize)
+                populate(descriptionTextId, descriptionColor, descriptionSize, descriptionFont)
             }
     }
 
-    private fun TextView.populate(@StringRes text: Int, @ColorRes color: Int, size: Float) {
-        this.text = resources.getString(text)
-        setTextColor(ContextCompat.getColor(requireContext(), color))
-        size.let {
-            if (it != 0f)
+    private fun TextView.populate(
+        @StringRes text: Int?,
+        @ColorRes color: Int,
+        size: Float?,
+        @StyleableRes font: Int?
+    ) {
+        if (text == null)
+            visibility = View.GONE
+        else {
+            this.text = resources.getString(text)
+            setTextColor(ContextCompat.getColor(requireContext(), color))
+
+            size?.let {
                 textSize = it
+            }
+            font?.let {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    this.typeface = resources.getFont(it)
+                }
+            }
         }
     }
 }

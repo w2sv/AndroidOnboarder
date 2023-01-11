@@ -1,12 +1,10 @@
 package com.chyrta.onboarder
 
-import android.animation.ArgbEvaluator
+import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.TypedValue
-import android.view.View
-import android.widget.FrameLayout
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.ColorUtils
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -15,13 +13,10 @@ import com.chyrta.onboarder.extensions.scrollToNextPage
 import com.chyrta.onboarder.views.CircleIndicatorView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-@Suppress("unused")
 abstract class OnboarderActivity : AppCompatActivity() {
     private lateinit var circleIndicatorView: CircleIndicatorView
     private lateinit var viewPager: ViewPager2
-    private lateinit var buttonsLayout: FrameLayout
     private lateinit var fab: FloatingActionButton
-    private lateinit var divider: View
 
     private lateinit var colors: List<Int>
 
@@ -31,25 +26,11 @@ abstract class OnboarderActivity : AppCompatActivity() {
         setContentView(R.layout.activity_onboarder)
 
         circleIndicatorView = findViewById(R.id.circle_indicator_view)
-        buttonsLayout = findViewById(R.id.buttons_layout)
-        fab = findViewById<FloatingActionButton?>(R.id.fab)
-            .apply {
-                setDividerVisibility(View.GONE)
-                buttonsLayout.layoutParams.height = TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP, 96f,
-                    resources.displayMetrics
-                )
-                    .toInt()
-            }
-        divider = findViewById(R.id.divider)
+        fab = findViewById(R.id.fab)
         viewPager = findViewById<ViewPager2>(R.id.vp_onboarder_pager)
             .apply {
                 registerOnPageChangeCallback(
                     object : ViewPager2.OnPageChangeCallback() {
-
-                        private val evaluator: ArgbEvaluator by lazy {
-                            ArgbEvaluator()
-                        }
 
                         override fun onPageScrolled(
                             position: Int,
@@ -57,12 +38,12 @@ abstract class OnboarderActivity : AppCompatActivity() {
                             positionOffsetPixels: Int
                         ) {
                             viewPager.setBackgroundColor(
-                                if (position < viewPager.adapter!!.itemCount - 1 && position < colors.lastIndex)
-                                    evaluator.evaluate(
-                                        positionOffset,
+                                if (!viewPager.onLastPage(position))
+                                    ColorUtils.blendARGB(
                                         colors[position],
-                                        colors[position + 1]
-                                    ) as Int
+                                        colors[position + 1],
+                                        positionOffset
+                                    )
                                 else
                                     colors.last()
                             )
@@ -96,6 +77,7 @@ abstract class OnboarderActivity : AppCompatActivity() {
 
     abstract fun onFinishButtonPressed()
 
+    @Suppress("unused")
     fun setPages(pages: List<OnboarderPage>) {
         viewPager.adapter = object : FragmentStateAdapter(this) {
             override fun createFragment(position: Int): Fragment =
@@ -104,34 +86,22 @@ abstract class OnboarderActivity : AppCompatActivity() {
             override fun getItemCount(): Int =
                 pages.size
         }
-        colors = pages.backgroundColors()
+        colors = pages.backgroundColors(this)
         circleIndicatorView.setPageIndicators(pages.size)
     }
 
+    @Suppress("unused")
     fun setInactiveIndicatorColor(color: Int) {
         circleIndicatorView.setInactiveIndicatorColor(color)
     }
 
+    @Suppress("unused")
     fun setActiveIndicatorColor(color: Int) {
         circleIndicatorView.setActiveIndicatorColor(color)
     }
 
-    fun setDividerColor(@ColorInt color: Int) {
-        divider.setBackgroundColor(color)
-    }
-
-    fun setDividerHeight(heightInDp: Int) {
-        divider.layoutParams.height = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, heightInDp.toFloat(),
-            resources.displayMetrics
-        ).toInt()
-    }
-
-    fun setDividerVisibility(dividerVisibility: Int) {
-        divider.visibility = dividerVisibility
-    }
-
+    @Suppress("unused")
     fun setFabColor(@ColorInt color: Int) {
-        fab.setBackgroundColor(color)
+        fab.backgroundTintList = ColorStateList.valueOf(color)
     }
 }

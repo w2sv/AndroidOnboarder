@@ -11,37 +11,27 @@
         android:layout_height="match_parent"
         android:paddingBottom="?attr/actionBarSize" />
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="?attr/actionBarSize"
-        android:background="?android:attr/listDivider" />
-
     <FrameLayout
         android:id="@+id/buttons_layout"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="50dp"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="?attr/actionBarSize"
-        android:paddingStart="@dimen/activity_margin"
-        android:paddingEnd="@dimen/activity_margin">
+        android:layout_marginBottom="30dp">
 
         <com.chyrta.onboarder.views.CircleIndicatorView
             android:id="@+id/circle_indicator_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_margin="@dimen/activity_margin"
-            android:src="@drawable/ic_arrow_forward_24"
-            android:contentDescription="@string/go_to_next_page_or_end_onboarding" />
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/go_to_next_page_or_end_onboarding"
+            android:src="@drawable/ic_arrow_forward_24" />
 
     </FrameLayout>
 

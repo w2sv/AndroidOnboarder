@@ -13,7 +13,6 @@ import androidx.core.os.bundleOf
 import com.w2sv.onboarding.databinding.FragmentOnboarderBinding
 import com.w2sv.viewboundcontroller.ViewBoundFragment
 
-
 class OnboardingFragment :
     ViewBoundFragment<FragmentOnboarderBinding>(FragmentOnboarderBinding::class.java) {
 

@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class OnboardingPage(
+class OnboardingPage(
     /**
      * title
      */

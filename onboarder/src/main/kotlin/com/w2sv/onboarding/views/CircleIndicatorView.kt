@@ -1,4 +1,4 @@
-package com.chyrta.onboarder.views
+package com.w2sv.onboarding.views
 
 import android.content.Context
 import android.graphics.Canvas
@@ -7,7 +7,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
-import com.chyrta.onboarder.R
+import com.w2sv.onboarding.R
 import kotlin.math.min
 
 class CircleIndicatorView(context: Context, attributeSet: AttributeSet) :
@@ -22,12 +22,12 @@ class CircleIndicatorView(context: Context, attributeSet: AttributeSet) :
 
     init {
         activeIndicatorPaint = Paint()
-        activeIndicatorPaint!!.color = ContextCompat.getColor(context, R.color.active_indicator)
+        activeIndicatorPaint!!.color = ContextCompat.getColor(context, R.color.onboarding_page_indicator_active)
         activeIndicatorPaint!!.isAntiAlias = true
         inactiveIndicatorPaint = Paint()
-        inactiveIndicatorPaint!!.color = ContextCompat.getColor(context, R.color.inactive_indicator)
+        inactiveIndicatorPaint!!.color = ContextCompat.getColor(context, R.color.onboarding_page_indicator_inactive)
         inactiveIndicatorPaint!!.isAntiAlias = true
-        radius = resources.getDimensionPixelSize(R.dimen.indicator_size)
+        radius = resources.getDimensionPixelSize(R.dimen.onboarding_page_indicator_size)
         size = radius * 2
     }
 

@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace 'com.chyrta.onboarder'
+    namespace 'com.w2sv.onboarding'
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
@@ -16,6 +16,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    buildFeatures {
+        viewBinding true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
@@ -38,7 +41,7 @@ afterEvaluate {
                 from components.release
 
                 groupId = 'com.github.w2sv'
-                artifactId = 'androidonboarder'
+                artifactId = 'onboarding'
                 version = '0.0.1'
             }
         }
@@ -49,4 +52,5 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation 'com.google.android.material:material:1.7.0'
+    implementation 'com.github.w2sv:ViewboundController:0.0.7-rc1'
 }

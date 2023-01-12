@@ -28,6 +28,7 @@
             android:layout_gravity="top|end"
             android:layout_marginEnd="18dp"
 
+            android:backgroundTint="@color/onboarding_fab_background"
             android:contentDescription="@string/fab_description"
             android:src="@drawable/ic_arrow_forward_24" />
 

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-   <dimen name="activity_margin">16dp</dimen>
-   <dimen name="indicator_size">8dp</dimen>
-
-   <dimen name="margin_between_title_and_description">8dp</dimen>
-   <dimen name="text_section_min_height">150dp</dimen>
+   <dimen name="onboarding_page_indicator_size">8dp</dimen>
+   <dimen name="onboarding_title_text_size">@dimen/abc_text_size_headline_material</dimen>
+   <dimen name="onboarding_description_text_size">@dimen/abc_text_size_body_1_material</dimen>
+   <dimen name="onboarding_bottom_layout_height">62dp</dimen>
 </resources>

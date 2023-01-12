@@ -1,13 +1,14 @@
-package com.chyrta.onboarder
+package com.w2sv.onboarding
 
 import android.content.Context
 import android.os.Parcelable
+import android.view.View
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
+import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.annotation.StyleableRes
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -15,41 +16,40 @@ data class OnboarderPage(
     /**
      * title
      */
-    @StringRes val titleTextId: Int? = null,
+    @StringRes val titleTextRes: Int? = null,
     val titleText: CharSequence? = null,
-    @ColorRes val titleColor: Int = R.color.white,
+    @ColorRes val titleColorRes: Int = R.color.onboarding_title,
     val titleSize: Float? = null,
-    @StyleableRes val titleFont: Int? = null,
+    @StyleableRes val titleFontRes: Int? = null,
 
     /**
      * description
      */
-    @StringRes val descriptionTextId: Int? = null,
+    @StringRes val descriptionTextRes: Int? = null,
     val descriptionText: CharSequence? = null,
-    @ColorRes val descriptionColor: Int = R.color.white,
+    @ColorRes val descriptionColorRes: Int = R.color.onboarding_description,
     val descriptionSize: Float? = null,
-    @StyleableRes val descriptionFont: Int? = null,
+    @StyleableRes val descriptionFontRes: Int? = null,
 
     /**
      * emblem
      */
-    @DrawableRes
-    val emblemDrawable: Int? = null,
+    @DrawableRes val emblemDrawableRes: Int? = null,
     val emblemText: CharSequence? = null,
     val emblemTextSize: Float? = null,
 
     /**
      * other
      */
-    val getActionLayoutFragment: (() -> Fragment)? = null,
-    @ColorRes
-    val backgroundColor: Int = R.color.black_transparent
+    @LayoutRes val actionLayoutRes: Int? = null,
+    @ColorRes val backgroundColorRes: Int = R.color.onboarding_background,
+    val onViewCreatedListener: ((View) -> Unit)? = null
 ) : Parcelable {
 
     companion object {
-        const val EXTRA = "com.chyrta.onboarder.extra.OnboarderPage"
+        const val EXTRA = "com.w2sv.onboarding.extra.OnboarderPage"
     }
 }
 
 fun Iterable<OnboarderPage>.backgroundColors(context: Context): List<Int> =
-    map { ContextCompat.getColor(context, it.backgroundColor) }
+    map { ContextCompat.getColor(context, it.backgroundColorRes) }

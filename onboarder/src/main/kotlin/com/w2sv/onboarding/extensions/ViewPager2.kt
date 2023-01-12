@@ -1,4 +1,4 @@
-package com.chyrta.onboarder.extensions
+package com.w2sv.onboarding.extensions
 
 import androidx.viewpager2.widget.ViewPager2
 

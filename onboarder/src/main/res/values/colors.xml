@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="white">@android:color/white</color>
-    <color name="black_transparent">#14000000</color>
+    <color name="onboarding_text">?android:textColorPrimary</color>
+    <color name="onboarding_description">?android:textColorPrimary</color>
+    <color name="onboarding_title">?android:textColorPrimary</color>
 
-    <color name="active_indicator">@color/white</color>
-    <color name="inactive_indicator">#4D000000</color>
+    <color name="onboarding_background">#14000000</color>
+
+    <color name="onboarding_page_indicator_active">@android:color/white</color>
+    <color name="onboarding_page_indicator_inactive">#4D000000</color>
+    <color name="onboarding_fab_background">?android:colorAccent</color>
 </resources>

@@ -7,20 +7,21 @@
     android:weightSum="1">
 
     <Space
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="0.25" />
+        android:layout_weight="0.2" />
 
     <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.25">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.22">
 
         <ImageView
             android:id="@+id/emblem_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:visibility="gone"
 
             android:adjustViewBounds="true"
             android:contentDescription="@null"
@@ -31,41 +32,55 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-
-            android:text="🎉"
-            android:textSize="120dp"
+            android:textAlignment="center"
             android:visibility="gone" />
 
     </FrameLayout>
 
     <TextView
-        android:id="@+id/tv_onboarder_title"
+        android:id="@+id/title_tv"
         style="@style/TextAppearance.AppCompat.Headline"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.1"
+        android:layout_height="0dp"
+        android:layout_weight="0.12"
         android:gravity="center"
 
         android:text="PLACEHOLDER"
-        android:textColor="@color/white" />
+        android:textSize="@dimen/onboarding_title_text_size"
+        android:textColor="@color/onboarding_title" />
 
-    <TextView
-        android:id="@+id/tv_onboarder_description"
-        style="@style/TextAppearance.AppCompat.Body1"
+    <ScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.2"
+        android:layout_height="0dp"
+        android:layout_weight="0.22"
+        android:layout_marginHorizontal="5dp"
 
-        android:gravity="top"
-        android:text="PLACEHOLDER"
-        android:textAlignment="center"
-        android:textColor="@color/white" />
+        android:scrollbars="vertical"
+        android:fillViewport="true"
+        android:fadeScrollbars="false">
+
+        <TextView
+            android:id="@+id/description_tv"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:gravity="center"
+
+            android:text="PLACEHOLDER"
+            android:textAlignment="center"
+            android:textSize="@dimen/onboarding_description_text_size"
+            android:textColor="@color/onboarding_description" />
+
+    </ScrollView>
 
     <FrameLayout
         android:id="@+id/action_layout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="0.2"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:layout_marginBottom="?actionBarSize"/>
 
 </LinearLayout>

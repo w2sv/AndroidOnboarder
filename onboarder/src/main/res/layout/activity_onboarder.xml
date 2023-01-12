@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
@@ -13,13 +14,19 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/onboarding_bottom_layout_height"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="?android:attr/actionBarSize">
+        android:layout_marginBottom="@dimen/onboarding_margin_bottom">
 
-        <com.w2sv.onboarding.views.CircleIndicatorView
-            android:id="@+id/circle_indicator_view"
+        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+            android:id="@+id/page_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+
+            app:dotsColor="@color/onboarding_page_indicator_dot"
+            app:selectedDotColor="@color/onboarding_page_indicator_dot"
+            app:dotsSize="@dimen/onboarding_page_indicator_dot_size"
+            app:dotsSpacing="@dimen/onboarding_page_indicator_dot_spacing"
+            app:progressMode="false" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"

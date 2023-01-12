@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class OnboarderPage(
+data class OnboardingPage(
     /**
      * title
      */
@@ -43,7 +43,8 @@ data class OnboarderPage(
      */
     @LayoutRes val actionLayoutRes: Int? = null,
     @ColorRes val backgroundColorRes: Int = R.color.onboarding_background,
-    val onViewCreatedListener: ((View) -> Unit)? = null
+    val onViewCreatedListener: ((View) -> Unit)? = null,
+    val onPageSelectedListener: ((View?) -> Unit)? = null
 ) : Parcelable {
 
     companion object {
@@ -51,5 +52,5 @@ data class OnboarderPage(
     }
 }
 
-fun Iterable<OnboarderPage>.backgroundColors(context: Context): List<Int> =
+fun Iterable<OnboardingPage>.backgroundColors(context: Context): List<Int> =
     map { ContextCompat.getColor(context, it.backgroundColorRes) }

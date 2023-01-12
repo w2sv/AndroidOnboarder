@@ -13,10 +13,13 @@ import com.w2sv.onboarding.extensions.scrollToNextPage
 import com.w2sv.viewboundcontroller.ViewBoundActivity
 import kotlin.properties.Delegates
 
-abstract class OnboardingActivity : ViewBoundActivity<ActivityOnboarderBinding>(ActivityOnboarderBinding::class.java) {
+abstract class OnboardingActivity :
+    ViewBoundActivity<ActivityOnboarderBinding>(ActivityOnboarderBinding::class.java) {
 
-    protected var pages: List<OnboarderPage> by Delegates.observable(listOf()) { _, _, newValue ->
-        binding.circleIndicatorView.setPageIndicators(newValue.size)
+    protected var pages: List<OnboardingPage> by Delegates.observable(listOf()) { _, _, _ ->
+        with(binding) {
+            pageIndicator.attachTo(viewPager)
+        }
     }
 
     private val colors: List<Int> by lazy {
@@ -34,6 +37,7 @@ abstract class OnboardingActivity : ViewBoundActivity<ActivityOnboarderBinding>(
                 override fun getItemCount(): Int =
                     pages.size
             }
+
             registerOnPageChangeCallback(
                 object : ViewPager2.OnPageChangeCallback() {
 
@@ -55,13 +59,15 @@ abstract class OnboardingActivity : ViewBoundActivity<ActivityOnboarderBinding>(
                     }
 
                     override fun onPageSelected(position: Int) {
-                        binding.circleIndicatorView.setCurrentPage(position)
-
                         binding.fab.setImageResource(
                             if (onLastPage(position))
                                 R.drawable.ic_done_24
                             else
                                 R.drawable.ic_arrow_forward_24
+                        )
+
+                        pages[position].onPageSelectedListener?.invoke(
+                            supportFragmentManager.findFragmentByTag("f$position")!!.view
                         )
                     }
                 }
@@ -81,16 +87,6 @@ abstract class OnboardingActivity : ViewBoundActivity<ActivityOnboarderBinding>(
     }
 
     protected abstract fun onFinishButtonPressed()
-
-    @Suppress("unused")
-    fun setInactiveIndicatorColor(color: Int) {
-        binding.circleIndicatorView.setInactiveIndicatorColor(color)
-    }
-
-    @Suppress("unused")
-    fun setActiveIndicatorColor(color: Int) {
-        binding.circleIndicatorView.setActiveIndicatorColor(color)
-    }
 
     @Suppress("unused")
     fun setFabColor(@ColorInt color: Int) {

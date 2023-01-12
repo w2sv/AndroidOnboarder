@@ -15,4 +15,3 @@ dependencyResolutionManagement {
 }
 
 include ':onboarder'
-//include ':sample'

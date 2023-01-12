@@ -18,10 +18,10 @@ class OnboardingFragment :
     ViewBoundFragment<FragmentOnboarderBinding>(FragmentOnboarderBinding::class.java) {
 
     companion object {
-        fun newInstance(page: OnboarderPage): OnboardingFragment =
+        fun newInstance(page: OnboardingPage): OnboardingFragment =
             OnboardingFragment().apply {
                 arguments = bundleOf(
-                    OnboarderPage.EXTRA to page
+                    OnboardingPage.EXTRA to page
                 )
             }
     }
@@ -31,11 +31,11 @@ class OnboardingFragment :
 
         @Suppress("DEPRECATION")
         requireArguments()
-            .getParcelable<OnboarderPage>(OnboarderPage.EXTRA)!!
+            .getParcelable<OnboardingPage>(OnboardingPage.EXTRA)!!
             .populateView(view)
     }
 
-    private fun OnboarderPage.populateView(view: View) {
+    private fun OnboardingPage.populateView(view: View) {
         if (emblemDrawableRes != null)
             with(binding.emblemIv) {
                 visibility = View.VISIBLE
@@ -92,7 +92,7 @@ class OnboardingFragment :
             visibilityAlterationTargetView.visibility = View.GONE
         else {
             this.text = if (textRes != null)
-                resources.getString(textRes)
+                resources.getText(textRes)
             else
                 text!!
 

@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.ColorRes
+import androidx.annotation.FontRes
 import androidx.annotation.StringRes
-import androidx.annotation.StyleableRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -28,83 +28,84 @@ class OnboardingFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        @Suppress("DEPRECATION")
-        requireArguments()
-            .getParcelable<OnboardingPage>(OnboardingPage.EXTRA)!!
-            .populateView(view)
+        binding.populate(
+            @Suppress("DEPRECATION")
+            requireArguments()
+                .getParcelable(OnboardingPage.EXTRA)!!
+        )
     }
 
-    private fun OnboardingPage.populateView(view: View) {
-        if (emblemDrawableRes != null)
-            with(binding.emblemIv) {
-                visibility = View.VISIBLE
-                setImageDrawable(
+    private fun FragmentOnboarderBinding.populate(page: OnboardingPage) {
+        when {
+            page.emblemDrawableRes != null -> {
+                emblemIv.visibility = View.VISIBLE
+                emblemIv.setImageDrawable(
                     AppCompatResources.getDrawable(
                         requireContext(),
-                        emblemDrawableRes
+                        page.emblemDrawableRes
                     )!!
                 )
             }
-        else if (emblemText != null) {
-            with(binding.emblemTv) {
-                visibility = View.VISIBLE
-                text = emblemText
-                emblemTextSize?.let {
-                    textSize = it
-                }
+
+            page.emblemText != null -> {
+                emblemTv.visibility = View.VISIBLE
+                emblemTv.text = page.emblemText
             }
+
+            else -> Unit
         }
 
-        binding.titleTv.populate(
-            titleText,
-            titleTextRes,
-            titleColorRes,
-            titleSize,
-            titleFontRes
+        titleTv.populate(
+            page.titleText,
+            page.titleTextRes,
+            page.titleColorRes,
+            page.titleSize,
+            page.titleFontRes
         )
-        binding.descriptionTv.populate(
-            descriptionText,
-            descriptionTextRes,
-            descriptionColorRes,
-            descriptionSize,
-            descriptionFontRes,
-            binding.scrollView
+        descriptionTv.populate(
+            page.descriptionText,
+            page.descriptionTextRes,
+            page.descriptionColorRes,
+            page.descriptionSize,
+            page.descriptionFontRes,
+            scrollView
         )
 
-        actionLayoutRes?.let {
-            layoutInflater.inflate(it, binding.actionLayout, true)
-            binding.actionLayout.visibility = View.VISIBLE
+        page.actionLayoutRes?.let {
+            actionLayout.visibility = View.VISIBLE
+            layoutInflater.inflate(it, actionLayout, true)
         }
 
-        onViewCreatedListener?.invoke(view, requireActivity())
+        page.onViewCreatedListener?.invoke(
+            requireView(),
+            requireActivity()
+        )
     }
 
     private fun TextView.populate(
         text: CharSequence?,
         @StringRes textRes: Int?,
-        @ColorRes colorRes: Int,
+        @ColorRes colorRes: Int?,
         size: Float?,
-        @StyleableRes fontRes: Int?,
-        visibilityAlterationTargetView: View = this
+        @FontRes fontRes: Int?,
+        visibilityAlterationReceptor: View = this
     ) {
-        if (text == null && textRes == null)
-            visibilityAlterationTargetView.visibility = View.GONE
-        else {
-            this.text = if (textRes != null)
-                resources.getText(textRes)
-            else
-                text!!
-
-            setTextColor(ContextCompat.getColor(requireContext(), colorRes))
-
-            size?.let {
-                textSize = it
-            }
-            fontRes?.let {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    this.typeface = resources.getFont(it)
-                }
+        when {
+            textRes != null -> this.text = resources.getText(textRes)
+            text != null -> this.text = text
+            else -> {
+                visibilityAlterationReceptor.visibility = View.GONE
+                return
             }
         }
+
+        colorRes?.let {
+            setTextColor(ContextCompat.getColor(requireContext(), it))
+        }
+        size?.let {
+            textSize = it
+        }
+        if (fontRes != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            typeface = resources.getFont(fontRes)
     }
 }

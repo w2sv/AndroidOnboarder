@@ -1,6 +1,8 @@
 package com.w2sv.onboarding
 
+import android.app.Activity
 import android.content.Context
+import android.os.Parcel
 import android.os.Parcelable
 import android.view.View
 import androidx.annotation.ColorRes
@@ -9,7 +11,9 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.annotation.StyleableRes
 import androidx.core.content.ContextCompat
+import androidx.viewbinding.ViewBinding
 import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
 @Parcelize
 class OnboardingPage(
@@ -43,8 +47,8 @@ class OnboardingPage(
      */
     @LayoutRes val actionLayoutRes: Int? = null,
     @ColorRes val backgroundColorRes: Int = R.color.onboarding_background,
-    val onViewCreatedListener: ((View) -> Unit)? = null,
-    val onPageSelectedListener: ((View?) -> Unit)? = null
+    val onViewCreatedListener: ((View, Activity) -> Unit)? = null,
+    val onPageSelectedListener: ((View?, Activity) -> Unit)? = null
 ) : Parcelable {
 
     companion object {

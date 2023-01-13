@@ -11,68 +11,14 @@ import com.w2sv.onboarding.databinding.ActivityOnboarderBinding
 import com.w2sv.onboarding.extensions.onLastPage
 import com.w2sv.onboarding.extensions.scrollToNextPage
 import com.w2sv.viewboundcontroller.ViewBoundActivity
-import kotlin.properties.Delegates
 
 abstract class OnboardingActivity :
     ViewBoundActivity<ActivityOnboarderBinding>(ActivityOnboarderBinding::class.java) {
 
-    protected var pages: List<OnboardingPage> by Delegates.observable(listOf()) { _, _, _ ->
-        with(binding) {
-            pageIndicator.attachTo(viewPager)
-        }
-    }
-
-    private val colors: List<Int> by lazy {
-        pages.backgroundColors(this)
-    }
+    private lateinit var colors: List<Int>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding.viewPager.apply {
-            adapter = object : FragmentStateAdapter(this@OnboardingActivity) {
-                override fun createFragment(position: Int): Fragment =
-                    OnboardingFragment.newInstance(pages[position])
-
-                override fun getItemCount(): Int =
-                    pages.size
-            }
-
-            registerOnPageChangeCallback(
-                object : ViewPager2.OnPageChangeCallback() {
-
-                    override fun onPageScrolled(
-                        position: Int,
-                        positionOffset: Float,
-                        positionOffsetPixels: Int
-                    ) {
-                        setBackgroundColor(
-                            if (!onLastPage(position))
-                                ColorUtils.blendARGB(
-                                    colors[position],
-                                    colors[position + 1],
-                                    positionOffset
-                                )
-                            else
-                                colors.last()
-                        )
-                    }
-
-                    override fun onPageSelected(position: Int) {
-                        binding.fab.setImageResource(
-                            if (onLastPage(position))
-                                R.drawable.ic_done_24
-                            else
-                                R.drawable.ic_arrow_forward_24
-                        )
-
-                        pages[position].onPageSelectedListener?.invoke(
-                            supportFragmentManager.findFragmentByTag("f$position")!!.view
-                        )
-                    }
-                }
-            )
-        }
 
         binding.setOnClickListeners()
     }
@@ -87,6 +33,60 @@ abstract class OnboardingActivity :
     }
 
     protected abstract fun onFinishButtonPressed()
+
+    @Suppress("unused")
+    protected fun setPages(pages: List<OnboardingPage>) {
+        with(binding) {
+            viewPager.apply {
+                adapter = object : FragmentStateAdapter(this@OnboardingActivity) {
+                    override fun createFragment(position: Int): Fragment =
+                        OnboardingFragment.newInstance(pages[position])
+
+                    override fun getItemCount(): Int =
+                        pages.size
+                }
+                pageIndicator.attachTo(this)
+
+                registerOnPageChangeCallback(
+                    object : ViewPager2.OnPageChangeCallback() {
+
+                        override fun onPageScrolled(
+                            position: Int,
+                            positionOffset: Float,
+                            positionOffsetPixels: Int
+                        ) {
+                            setBackgroundColor(
+                                if (!onLastPage(position))
+                                    ColorUtils.blendARGB(
+                                        colors[position],
+                                        colors[position + 1],
+                                        positionOffset
+                                    )
+                                else
+                                    colors.last()
+                            )
+                        }
+
+                        override fun onPageSelected(position: Int) {
+                            binding.fab.setImageResource(
+                                if (onLastPage(position))
+                                    R.drawable.ic_done_24
+                                else
+                                    R.drawable.ic_arrow_forward_24
+                            )
+
+                            pages[position].onPageSelectedListener?.invoke(
+                                supportFragmentManager.findFragmentByTag("f$position")!!.view,
+                                this@OnboardingActivity
+                            )
+                        }
+                    }
+                )
+            }
+        }
+
+        colors = pages.backgroundColors(this)
+    }
 
     @Suppress("unused")
     fun setFabColor(@ColorInt color: Int) {

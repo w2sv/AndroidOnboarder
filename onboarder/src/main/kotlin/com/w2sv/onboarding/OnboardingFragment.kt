@@ -76,7 +76,7 @@ class OnboardingFragment :
             binding.actionLayout.visibility = View.VISIBLE
         }
 
-        onViewCreatedListener?.invoke(view)
+        onViewCreatedListener?.invoke(view, requireActivity())
     }
 
     private fun TextView.populate(

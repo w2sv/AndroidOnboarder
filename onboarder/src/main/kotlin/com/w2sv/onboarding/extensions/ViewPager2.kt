@@ -11,3 +11,6 @@ fun ViewPager2.onLastPage(position: Int): Boolean =
 fun ViewPager2.scrollToNextPage() {
     currentItem += 1
 }
+
+fun fragmentStateAdapterChildFragmentTag(position: Int): String =
+    "f$position"

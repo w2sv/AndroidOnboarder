@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/onboarding_fragment_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:weightSum="1">
@@ -22,8 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:adjustViewBounds="true"
 
+            android:adjustViewBounds="true"
             android:contentDescription="@null"
             android:scaleType="fitCenter"
             android:visibility="gone" />
@@ -33,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+
             android:textAlignment="center"
             android:visibility="gone" />
 
@@ -53,10 +54,10 @@
         android:id="@+id/scroll_view"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="5dp"
+        android:layout_marginHorizontal="@dimen/onboarding_margin_small"
         android:layout_weight="0.22"
 
-        android:fadeScrollbars="false"
+        android:fadeScrollbars="@bool/onboarding_fade_description_scroll_bar"
         android:fillViewport="true"
         android:scrollbars="vertical">
 
@@ -65,7 +66,7 @@
             style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
+            android:layout_marginHorizontal="@dimen/onboarding_margin_small"
             android:gravity="center"
 
             android:textAlignment="center"
@@ -78,7 +79,6 @@
         android:id="@+id/action_layout"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginBottom="?actionBarSize"
         android:layout_weight="0.2"
         android:visibility="gone" />
 

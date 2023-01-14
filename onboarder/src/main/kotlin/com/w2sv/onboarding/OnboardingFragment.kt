@@ -11,6 +11,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import com.w2sv.onboarding.databinding.FragmentOnboarderBinding
+import com.w2sv.onboarding.extensions.show
 import com.w2sv.viewboundcontroller.ViewBoundFragment
 
 class OnboardingFragment :
@@ -38,7 +39,7 @@ class OnboardingFragment :
     private fun FragmentOnboarderBinding.populate(page: OnboardingPage) {
         when {
             page.emblemDrawableRes != null -> {
-                emblemIv.visibility = View.VISIBLE
+                emblemIv.show()
                 emblemIv.setImageDrawable(
                     AppCompatResources.getDrawable(
                         requireContext(),
@@ -48,7 +49,7 @@ class OnboardingFragment :
             }
 
             page.emblemText != null -> {
-                emblemTv.visibility = View.VISIBLE
+                emblemTv.show()
                 emblemTv.text = page.emblemText
             }
 
@@ -67,12 +68,11 @@ class OnboardingFragment :
             page.descriptionTextRes,
             page.descriptionColorRes,
             page.descriptionSize,
-            page.descriptionFontRes,
-            scrollView
+            page.descriptionFontRes
         )
 
         page.actionLayoutRes?.let {
-            actionLayout.visibility = View.VISIBLE
+            actionLayout.show()
             layoutInflater.inflate(it, actionLayout, true)
         }
 
@@ -87,16 +87,12 @@ class OnboardingFragment :
         @StringRes textRes: Int?,
         @ColorRes colorRes: Int?,
         size: Float?,
-        @FontRes fontRes: Int?,
-        visibilityAlterationReceptor: View = this
+        @FontRes fontRes: Int?
     ) {
         when {
             textRes != null -> this.text = resources.getText(textRes)
             text != null -> this.text = text
-            else -> {
-                visibilityAlterationReceptor.visibility = View.GONE
-                return
-            }
+            else -> return
         }
 
         colorRes?.let {

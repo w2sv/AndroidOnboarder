@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/onboarding_fragment_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:orientation="horizontal"
     android:weightSum="1"
     android:baselineAligned="false">
@@ -18,8 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:adjustViewBounds="true"
 
+            android:adjustViewBounds="true"
             android:contentDescription="@null"
             android:scaleType="fitCenter"
             android:visibility="gone" />
@@ -29,6 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+
             android:textAlignment="center"
             android:visibility="gone" />
 
@@ -58,9 +59,9 @@
             android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:layout_marginEnd="3dp"
+            android:layout_marginEnd="@dimen/onboarding_margin_minimal"
 
-            android:fadeScrollbars="false"
+            android:fadeScrollbars="@bool/onboarding_fade_description_scroll_bar"
             android:fillViewport="true"
             android:scrollbars="vertical">
 
@@ -69,7 +70,7 @@
                 style="@style/TextAppearance.AppCompat.Body1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
+                android:layout_marginHorizontal="@dimen/onboarding_margin_small"
                 android:gravity="center"
 
                 android:textAlignment="center"
@@ -82,7 +83,7 @@
             android:id="@+id/action_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/onboarding_margin_small"
             android:layout_gravity="center"
             android:visibility="invisible" />
 

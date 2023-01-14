@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="onboarding_text">@android:color/white</color>
-    <color name="onboarding_description">@color/onboarding_text</color>
     <color name="onboarding_title">@color/onboarding_text</color>
+    <color name="onboarding_description">@color/onboarding_text</color>
 
     <color name="onboarding_background">#14000000</color>
-    <color name="onboarding_fab_background">?android:colorAccent</color>
 
     <color name="onboarding_page_indicator_dot">@android:color/white</color>
+    <color name="onboarding_fab_background">?android:colorAccent</color>
+    <color name="onboarding_fab_icon">@android:color/white</color>
 </resources>

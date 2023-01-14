@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="onboarding_fade_description_scroll_bar">false</bool>
+</resources>

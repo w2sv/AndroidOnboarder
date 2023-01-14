@@ -5,6 +5,7 @@
 
    <dimen name="onboarding_margin_minimal">4dp</dimen>
    <dimen name="onboarding_margin_small">8dp</dimen>
+
    <dimen name="onboarding_title_text_size">@dimen/abc_text_size_headline_material</dimen>
    <dimen name="onboarding_description_text_size">@dimen/abc_text_size_body_1_material</dimen>
    <dimen name="onboarding_bottom_layout_height">62dp</dimen>

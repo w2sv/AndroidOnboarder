@@ -54,7 +54,7 @@
         android:id="@+id/scroll_view"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="@dimen/onboarding_margin_small"
+        android:layout_marginHorizontal="@dimen/onboarding_margin_minimal"
         android:layout_weight="0.22"
 
         android:fadeScrollbars="@bool/onboarding_fade_description_scroll_bar"
@@ -66,7 +66,7 @@
             style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/onboarding_margin_small"
+            android:layout_marginHorizontal="12dp"
             android:gravity="center"
 
             android:textAlignment="center"
@@ -79,7 +79,7 @@
         android:id="@+id/action_layout"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="0.2"
-        android:visibility="gone" />
+        android:layout_weight="0.1"
+        android:visibility="visible" />
 
 </LinearLayout>

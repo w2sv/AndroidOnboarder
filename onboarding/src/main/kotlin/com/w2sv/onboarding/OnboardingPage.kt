@@ -46,7 +46,7 @@ class OnboardingPage(
      * listeners
      */
     val onViewCreatedListener: ((View, Activity) -> Unit)? = null,
-    val onPageFullyVisible: ((View?, Activity) -> Unit)? = null
+    val onPageFullyVisibleListener: ((View?, Activity) -> Unit)? = null
 ) : Parcelable {
 
     companion object {

@@ -21,12 +21,15 @@ abstract class OnboardingActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        with(binding){
+        with(binding) {
             fab.setOnClickListener {
-                if (!viewPager.onLastPage)
-                    viewPager.setCurrentItem(viewPager.currentItem + 1, true)
-                else
-                    onOnboardingFinished()
+                with(viewPager) {
+                    if (!onLastPage) {
+                        setCurrentItem(currentItem + 1, true)
+                        return@setOnClickListener
+                    }
+                }
+                onOnboardingFinished()
             }
         }
     }
@@ -79,7 +82,7 @@ abstract class OnboardingActivity :
 
                 /**
                  * Change [binding].fab drawable;
-                 * Invoke [OnboardingPage.onPageFullyVisible] if != null
+                 * Invoke [OnboardingPage.onPageFullyVisibleListener] if != null
                  */
                 override fun onPageSelected(position: Int) {
                     binding.fab.setImageResource(
@@ -94,7 +97,7 @@ abstract class OnboardingActivity :
                     super.onPageScrollStateChanged(state)
 
                     if (state == ViewPager2.SCROLL_STATE_IDLE && currentItem != lastShownPage) {
-                        pages[currentItem].onPageFullyVisible?.invoke(
+                        pages[currentItem].onPageFullyVisibleListener?.invoke(
                             supportFragmentManager.findFragmentByTag(
                                 fragmentStateAdapterChildFragmentTag(currentItem)
                             )!!

@@ -11,7 +11,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.w2sv.onboarding.databinding.ActivityOnboarderBinding
 import com.w2sv.onboarding.extensions.fragmentStateAdapterChildFragmentTag
 import com.w2sv.onboarding.extensions.onLastPage
-import com.w2sv.onboarding.extensions.scrollToNextPage
 import com.w2sv.viewboundcontroller.ViewBoundActivity
 
 abstract class OnboardingActivity :
@@ -25,7 +24,7 @@ abstract class OnboardingActivity :
         with(binding){
             fab.setOnClickListener {
                 if (!viewPager.onLastPage)
-                    viewPager.scrollToNextPage()
+                    viewPager.setCurrentItem(viewPager.currentItem + 1, true)
                 else
                     onOnboardingFinished()
             }
@@ -80,7 +79,7 @@ abstract class OnboardingActivity :
 
                 /**
                  * Change [binding].fab drawable;
-                 * Invoke [OnboardingPage.onPageSelectedListener] if != null
+                 * Invoke [OnboardingPage.onPageFullyVisible] if != null
                  */
                 override fun onPageSelected(position: Int) {
                     binding.fab.setImageResource(
@@ -89,15 +88,25 @@ abstract class OnboardingActivity :
                         else
                             R.drawable.ic_arrow_forward_24
                     )
-
-                    pages[position].onPageSelectedListener?.invoke(
-                        supportFragmentManager.findFragmentByTag(
-                            fragmentStateAdapterChildFragmentTag(position)
-                        )!!
-                            .view,
-                        this@OnboardingActivity
-                    )
                 }
+
+                override fun onPageScrollStateChanged(state: Int) {
+                    super.onPageScrollStateChanged(state)
+
+                    if (state == ViewPager2.SCROLL_STATE_IDLE && currentItem != lastShownPage) {
+                        pages[currentItem].onPageFullyVisible?.invoke(
+                            supportFragmentManager.findFragmentByTag(
+                                fragmentStateAdapterChildFragmentTag(currentItem)
+                            )!!
+                                .view,
+                            this@OnboardingActivity
+                        )
+
+                        lastShownPage = currentItem
+                    }
+                }
+
+                private var lastShownPage: Int? = null
             }
         )
     }

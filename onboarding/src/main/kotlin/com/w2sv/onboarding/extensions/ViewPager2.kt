@@ -8,9 +8,5 @@ val ViewPager2.onLastPage: Boolean
 fun ViewPager2.onLastPage(position: Int): Boolean =
     position == adapter!!.itemCount - 1
 
-fun ViewPager2.scrollToNextPage() {
-    currentItem += 1
-}
-
 fun fragmentStateAdapterChildFragmentTag(position: Int): String =
     "f$position"

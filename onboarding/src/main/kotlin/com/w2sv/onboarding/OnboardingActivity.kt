@@ -16,28 +16,33 @@ import com.w2sv.viewboundcontroller.ViewBoundActivity
 abstract class OnboardingActivity :
     ViewBoundActivity<ActivityOnboarderBinding>(ActivityOnboarderBinding::class.java) {
 
+    protected abstract fun onOnboardingFinished()
+
+    protected abstract fun getPages(): List<OnboardingPage>
+
     private lateinit var backgroundColors: List<Int>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        with(binding) {
-            fab.setOnClickListener {
-                with(viewPager) {
-                    if (!onLastPage) {
-                        setCurrentItem(currentItem + 1, true)
-                        return@setOnClickListener
-                    }
+        setPages()
+        binding.setOnClickListeners()
+    }
+
+    private fun ActivityOnboarderBinding.setOnClickListeners() {
+        fab.setOnClickListener {
+            with(viewPager) {
+                if (!onLastPage) {
+                    setCurrentItem(currentItem + 1, true)
+                    return@setOnClickListener
                 }
-                onOnboardingFinished()
             }
+            onOnboardingFinished()
         }
     }
 
-    protected abstract fun onOnboardingFinished()
-
-    @Suppress("unused")
-    protected fun setPages(pages: List<OnboardingPage>) {
+    private fun setPages() {
+        val pages = getPages()
         backgroundColors = pages.map {
             ContextCompat.getColor(
                 this,

@@ -8,13 +8,13 @@ import androidx.core.graphics.ColorUtils
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.w2sv.onboarding.databinding.ActivityOnboarderBinding
+import com.w2sv.onboarding.databinding.ActivityOnboardingBinding
 import com.w2sv.onboarding.extensions.fragmentStateAdapterChildFragmentTag
 import com.w2sv.onboarding.extensions.onLastPage
 import com.w2sv.viewboundcontroller.ViewBoundActivity
 
 abstract class OnboardingActivity :
-    ViewBoundActivity<ActivityOnboarderBinding>(ActivityOnboarderBinding::class.java) {
+    ViewBoundActivity<ActivityOnboardingBinding>(ActivityOnboardingBinding::class.java) {
 
     protected abstract fun onOnboardingFinished()
 
@@ -29,7 +29,7 @@ abstract class OnboardingActivity :
         binding.setOnClickListeners()
     }
 
-    private fun ActivityOnboarderBinding.setOnClickListeners() {
+    private fun ActivityOnboardingBinding.setOnClickListeners() {
         fab.setOnClickListener {
             with(viewPager) {
                 if (!onLastPage) {

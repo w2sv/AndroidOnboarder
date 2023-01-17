@@ -11,12 +11,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import com.w2sv.onboarding.databinding.FragmentOnboarderBinding
+import com.w2sv.onboarding.databinding.FragmentOnboardingBinding
 import com.w2sv.onboarding.extensions.show
 import com.w2sv.viewboundcontroller.ViewBoundFragment
 
 class OnboardingFragment :
-    ViewBoundFragment<FragmentOnboarderBinding>(FragmentOnboarderBinding::class.java) {
+    ViewBoundFragment<FragmentOnboardingBinding>(FragmentOnboardingBinding::class.java) {
 
     companion object {
         fun newInstance(page: OnboardingPage): OnboardingFragment =
@@ -37,7 +37,7 @@ class OnboardingFragment :
         )
     }
 
-    private fun FragmentOnboarderBinding.populate(page: OnboardingPage) {
+    private fun FragmentOnboardingBinding.populate(page: OnboardingPage) {
         when {
             page.emblemDrawableRes != null -> {
                 emblemIv.show()

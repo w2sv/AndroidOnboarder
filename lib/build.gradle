@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-parcelize'
     id 'maven-publish'
 }
 
@@ -24,8 +23,8 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = '17'
+    kotlin {
+        jvmToolchain(17)
     }
     publishing {
         singleVariant('release') {
@@ -50,8 +49,13 @@ afterEvaluate {
 
 dependencies {
     api 'com.tbuonomo:dotsindicator:4.3'
-    implementation 'androidx.appcompat:appcompat:1.5.1'
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+    implementation 'androidx.activity:activity-ktx:1.7.0'
+    implementation 'androidx.fragment:fragment-ktx:1.5.6'
+
+    implementation 'com.google.android.material:material:1.8.0'
     implementation 'com.github.w2sv:ViewboundController:0.0.7-rc1'
 }

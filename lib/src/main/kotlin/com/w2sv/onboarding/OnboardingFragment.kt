@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.fragment.app.activityViewModels
 import com.w2sv.onboarding.databinding.FragmentOnboardingBinding
 import com.w2sv.onboarding.extensions.show
 import com.w2sv.viewboundcontroller.ViewBoundFragment
@@ -19,10 +20,12 @@ class OnboardingFragment :
     ViewBoundFragment<FragmentOnboardingBinding>(FragmentOnboardingBinding::class.java) {
 
     companion object {
-        fun newInstance(page: OnboardingPage): OnboardingFragment =
+        private const val EXTRA_PAGE_POSITION = "com.w2sv.onboarder.extra.PAGE_POSITION"
+
+        fun newInstance(pagePosition: Int): OnboardingFragment =
             OnboardingFragment().apply {
                 arguments = bundleOf(
-                    OnboardingPage.EXTRA to page
+                    EXTRA_PAGE_POSITION to pagePosition
                 )
             }
     }
@@ -30,11 +33,9 @@ class OnboardingFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.populate(
-            @Suppress("DEPRECATION")
-            requireArguments()
-                .getParcelable(OnboardingPage.EXTRA)!!
-        )
+        val viewModel by activityViewModels<OnboardingActivity.ViewModel>()
+
+        binding.populate(viewModel.pages[requireArguments().getInt(EXTRA_PAGE_POSITION)])
     }
 
     private fun FragmentOnboardingBinding.populate(page: OnboardingPage) {

@@ -2,6 +2,7 @@ package com.w2sv.onboarding
 
 import android.content.res.ColorStateList
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
@@ -16,49 +17,51 @@ import com.w2sv.viewboundcontroller.ViewBoundActivity
 abstract class OnboardingActivity :
     ViewBoundActivity<ActivityOnboardingBinding>(ActivityOnboardingBinding::class.java) {
 
+    class ViewModel : androidx.lifecycle.ViewModel() {
+        lateinit var backgroundColors: List<Int>
+        lateinit var pages: List<OnboardingPage>
+    }
+
     protected abstract fun onOnboardingFinished()
 
     protected abstract fun getPages(): List<OnboardingPage>
 
-    private lateinit var backgroundColors: List<Int>
+    private val viewModel by viewModels<ViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setPages()
-        binding.setOnClickListeners()
-    }
+        with(viewModel){
+            pages = getPages()
+            backgroundColors = pages.map {
+                ContextCompat.getColor(
+                    this@OnboardingActivity,
+                    it.backgroundColorRes ?: R.color.onboarding_background
+                )
+            }
+        }
 
-    private fun ActivityOnboardingBinding.setOnClickListeners() {
-        fab.setOnClickListener {
-            with(viewPager) {
-                if (!onLastPage) {
-                    setCurrentItem(currentItem + 1, true)
-                    return@setOnClickListener
+        with(binding) {
+            viewPager.setBy(viewModel.pages.size)
+
+            fab.setOnClickListener {
+                with(viewPager) {
+                    when (onLastPage) {
+                        true -> onOnboardingFinished()
+                        false -> setCurrentItem(currentItem + 1, true)
+                    }
                 }
             }
-            onOnboardingFinished()
         }
     }
 
-    private fun setPages() {
-        val pages = getPages()
-        backgroundColors = pages.map {
-            ContextCompat.getColor(
-                this,
-                it.backgroundColorRes ?: R.color.onboarding_background
-            )
-        }
-        binding.viewPager.setBy(pages)
-    }
-
-    private fun ViewPager2.setBy(pages: List<OnboardingPage>) {
+    private fun ViewPager2.setBy(nPages: Int) {
         adapter = object : FragmentStateAdapter(this@OnboardingActivity) {
             override fun createFragment(position: Int): Fragment =
-                OnboardingFragment.newInstance(pages[position])
+                OnboardingFragment.newInstance(position)
 
             override fun getItemCount(): Int =
-                pages.size
+                nPages
         }
         binding.pageIndicator.attachTo(this)
 
@@ -76,12 +79,12 @@ abstract class OnboardingActivity :
                     setBackgroundColor(
                         if (!onLastPage(position))
                             ColorUtils.blendARGB(
-                                backgroundColors[position],
-                                backgroundColors[position + 1],
+                                viewModel.backgroundColors[position],
+                                viewModel.backgroundColors[position + 1],
                                 positionOffset
                             )
                         else
-                            backgroundColors.last()
+                            viewModel.backgroundColors.last()
                     )
                 }
 
@@ -102,7 +105,7 @@ abstract class OnboardingActivity :
                     super.onPageScrollStateChanged(state)
 
                     if (state == ViewPager2.SCROLL_STATE_IDLE && currentItem != lastShownPage) {
-                        pages[currentItem].onPageFullyVisibleListener?.invoke(
+                        viewModel.pages[currentItem].onPageFullyVisibleListener?.invoke(
                             supportFragmentManager.findFragmentByTag(
                                 fragmentStateAdapterChildFragmentTag(currentItem)
                             )!!

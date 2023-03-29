@@ -1,18 +1,14 @@
 package com.w2sv.onboarding
 
-import android.os.Parcelable
 import android.view.View
-import androidx.activity.ComponentActivity
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.FontRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.parcelize.Parcelize
 
-@Parcelize
-class OnboardingPage(
+data class OnboardingPage(
     /**
      * title
      */
@@ -48,9 +44,4 @@ class OnboardingPage(
      */
     val onViewCreatedListener: ((View, AppCompatActivity) -> Unit)? = null,
     val onPageFullyVisibleListener: ((View?, AppCompatActivity) -> Unit)? = null
-) : Parcelable {
-
-    companion object {
-        const val EXTRA = "com.w2sv.onboarding.extra.OnboarderPage"
-    }
-}
+)

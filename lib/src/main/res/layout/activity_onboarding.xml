@@ -36,7 +36,8 @@
             android:layout_marginEnd="18dp"
 
             android:contentDescription="@string/fab_description"
-            android:src="@drawable/ic_arrow_forward_24" />
+            android:src="@drawable/ic_arrow_forward_24"
+            app:backgroundTint="@color/onboarding_fab_background"/>
 
     </FrameLayout>
 

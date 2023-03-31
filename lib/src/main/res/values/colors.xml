@@ -7,6 +7,5 @@
     <color name="onboarding_background">#14000000</color>
 
     <color name="onboarding_page_indicator_dot">@android:color/white</color>
-    <color name="onboarding_fab_background">?android:colorAccent</color>
     <color name="onboarding_fab_icon">@android:color/white</color>
 </resources>

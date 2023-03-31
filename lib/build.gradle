@@ -58,4 +58,6 @@ dependencies {
 
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'com.github.w2sv:ViewboundController:0.0.7-rc1'
+    
+    implementation 'com.github.w2sv:AndroidUtils:0.1.1-rc1'
 }

@@ -9,11 +9,11 @@
 ## Installation with gradle & jitpack
 
 ```gradle
-implementation 'com.github.w2sv:onboarding:x.y.z'
+implementation 'com.github.w2sv:AndroidOnboarder:x.y.z'
 ```
 or get the latest snapshot of a certain branch:
 ```gradle
-implementation 'com.github.w2sv:onboarding:<BRANCH-NAME>-SNAPSHOT'
+implementation 'com.github.w2sv:AndroidOnboarder:<BRANCH-NAME>-SNAPSHOT'
 ```
 
 ## License

@@ -12,7 +12,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
-import com.w2sv.androidutils.extensions.show
+import com.w2sv.androidutils.ui.views.show
 import com.w2sv.onboarding.databinding.FragmentOnboardingBinding
 import com.w2sv.viewboundcontroller.ViewBoundFragment
 

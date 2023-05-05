@@ -16,7 +16,7 @@ import com.w2sv.androidutils.ui.views.show
 import com.w2sv.onboarding.databinding.FragmentOnboardingBinding
 import com.w2sv.viewboundcontroller.ViewBoundFragment
 
-class OnboardingFragment :
+internal class OnboardingFragment :
     ViewBoundFragment<FragmentOnboardingBinding>(FragmentOnboardingBinding::class.java) {
 
     companion object {
@@ -30,10 +30,10 @@ class OnboardingFragment :
             }
     }
 
+    private val viewModel by activityViewModels<OnboardingViewModel>()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val viewModel by activityViewModels<OnboardingActivity.ViewModel>()
 
         binding.populate(viewModel.pages[requireArguments().getInt(EXTRA_PAGE_POSITION)])
     }
@@ -103,7 +103,8 @@ class OnboardingFragment :
         size?.let {
             textSize = it
         }
-        if (fontRes != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        if (fontRes != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             typeface = resources.getFont(fontRes)
+        }
     }
 }

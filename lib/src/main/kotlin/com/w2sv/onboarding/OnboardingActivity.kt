@@ -4,7 +4,6 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -17,29 +16,21 @@ import com.w2sv.viewboundcontroller.ViewBoundActivity
 abstract class OnboardingActivity :
     ViewBoundActivity<ActivityOnboardingBinding>(ActivityOnboardingBinding::class.java) {
 
-    class ViewModel : androidx.lifecycle.ViewModel() {
-        lateinit var backgroundColors: List<Int>
-        lateinit var pages: List<OnboardingPage>
-    }
-
     protected abstract fun onOnboardingFinished()
 
     protected abstract fun getPages(): List<OnboardingPage>
 
-    private val viewModel by viewModels<ViewModel>()
+    private val viewModel by viewModels<OnboardingViewModel>(
+        factoryProducer = {
+            OnboardingViewModel.Factory(
+                getPages(),
+                this
+            )
+        }
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        with(viewModel){
-            pages = getPages()
-            backgroundColors = pages.map {
-                ContextCompat.getColor(
-                    this@OnboardingActivity,
-                    it.backgroundColorRes ?: R.color.onboarding_background
-                )
-            }
-        }
 
         with(binding) {
             viewPager.setBy(viewModel.pages.size)
@@ -69,7 +60,7 @@ abstract class OnboardingActivity :
             object : ViewPager2.OnPageChangeCallback() {
 
                 /**
-                 * Interpolate background color
+                 * Interpolate background color.
                  */
                 override fun onPageScrolled(
                     position: Int,
